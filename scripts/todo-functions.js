@@ -60,15 +60,16 @@ const renderTodos = (todos, filters) => {
 
 // Get the DOM elements for an individual note
 const generateTodoDOM = todo => {
-  const todoEl = document.createElement("div");
+  const todoEl = document.createElement("label");
+  const containerEl = document.createElement("div");
   const checkbox = document.createElement("input");
   const todoText = document.createElement("span");
-  const button = document.createElement("button");
+  const removeButton = document.createElement("button");
 
   //Setup a todo checkbox
   checkbox.setAttribute("type", "checkbox");
   checkbox.checked = todo.completed;
-  todoEl.appendChild(checkbox);
+  containerEl.appendChild(checkbox);
   checkbox.addEventListener("change", () => {
     toggleTodo(todo.id);
     saveTodos(todos);
@@ -77,14 +78,20 @@ const generateTodoDOM = todo => {
 
   //Setup a text
   todoText.textContent = todo.text;
-  todoEl.appendChild(todoText);
+  containerEl.appendChild(todoText);
+
+  //set up container
+  todoEl.classList.add("list-item");
+  containerEl.classList.add("list-item__container");
+  todoEl.appendChild(containerEl);
 
   //Setup a button to remove
-  button.textContent = "x";
-  todoEl.appendChild(button);
+  removeButton.textContent = "remove";
+  removeButton.classList.add("button", "button--text");
+  todoEl.appendChild(removeButton);
 
   // add event listener to button
-  button.addEventListener("click", () => {
+  removeButton.addEventListener("click", () => {
     removeTodo(todo.id);
     saveTodos(todos);
     renderTodos(todos, filters);
@@ -96,11 +103,13 @@ const generateTodoDOM = todo => {
 // Get the DOM elements for list summary
 const generateSummaryDOM = incompleteTodos => {
   const summary = document.createElement("h2");
-  summary.textContent = `You have ${incompleteTodos.length} todos left`;
+  summary.classList.add("list-title");
+
+  if (incompleteTodos.length > 1 || incompleteTodos.length == 0) {
+    summary.textContent = `You have ${incompleteTodos.length} todos left`;
+  } else {
+    summary.textContent = `You have ${incompleteTodos.length} todo left`;
+  }
+
   return summary;
 };
-
-//Set up a root div
-//Set up and append a checkbox (set type attribute)
-//Setup and append a span
-//Setup and append a button
