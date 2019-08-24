@@ -105,11 +105,15 @@ const generateSummaryDOM = incompleteTodos => {
   const summary = document.createElement("h2");
   summary.classList.add("list-title");
 
-  if (incompleteTodos.length > 1 || incompleteTodos.length == 0) {
-    summary.textContent = `You have ${incompleteTodos.length} todos left`;
-  } else {
-    summary.textContent = `You have ${incompleteTodos.length} todo left`;
-  }
+  // if (incompleteTodos.length > 1 || incompleteTodos.length == 0) {
+  //   summary.textContent = `You have ${incompleteTodos.length} todos left`;
+  // } else {
+  //   summary.textContent = `You have ${incompleteTodos.length} todo left`;
+  // }
+
+  incompleteTodos.length > 1 || incompleteTodos.length == 0
+    ? (summary.textContent = `You have ${incompleteTodos.length} todos left`)
+    : (summary.textContent = `You have ${incompleteTodos.length} todo left`);
 
   return summary;
 };
