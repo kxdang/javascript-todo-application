@@ -37,6 +37,7 @@ const toggleTodo = id => {
 
 // Render application todos based on filters
 const renderTodos = (todos, filters) => {
+  const todoEl = document.querySelector("#todos");
   const filteredTodos = todos.filter(todo => {
     const searchTextMatch = todo.text
       .toLowerCase()
@@ -48,15 +49,22 @@ const renderTodos = (todos, filters) => {
 
   const incompleteTodos = filteredTodos.filter(todo => !todo.completed);
 
-  document.querySelector("#todos").innerHTML = "";
-  document
-    .querySelector("#todos")
-    .appendChild(generateSummaryDOM(incompleteTodos));
+  todoEl.innerHTML = "";
+  todoEl.appendChild(generateSummaryDOM(incompleteTodos));
 
-  filteredTodos.forEach(todo => {
-    document.querySelector("#todos").appendChild(generateTodoDOM(todo));
-  });
+  if (filteredTodos.length > 0) {
+    filteredTodos.forEach(todo => {
+      todoEl.appendChild(generateTodoDOM(todo));
+    });
+  } else {
+    const messageEl = document.createElement("p");
+    messageEl.classList.add("empty-message");
+    messageEl.textContent = "No to-dos to show";
+    todoEl.appendChild(messageEl);
+  }
 };
+//If todos to show, render them
+//Else, p with class "empty-message" and message "No to-dos to show"
 
 // Get the DOM elements for an individual note
 const generateTodoDOM = todo => {
@@ -111,9 +119,10 @@ const generateSummaryDOM = incompleteTodos => {
   //   summary.textContent = `You have ${incompleteTodos.length} todo left`;
   // }
 
-  incompleteTodos.length > 1 || incompleteTodos.length == 0
-    ? (summary.textContent = `You have ${incompleteTodos.length} todos left`)
-    : (summary.textContent = `You have ${incompleteTodos.length} todo left`);
+  summary.textContent =
+    incompleteTodos.length > 1 || incompleteTodos.length == 0
+      ? `You have ${incompleteTodos.length} todos left`
+      : `You have ${incompleteTodos.length} todo left`;
 
   return summary;
 };
