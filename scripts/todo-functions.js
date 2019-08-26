@@ -56,10 +56,11 @@ const renderTodos = (todos, filters) => {
     filteredTodos.forEach(todo => {
       todoEl.appendChild(generateTodoDOM(todo));
     });
+    ``;
   } else {
     const messageEl = document.createElement("p");
     messageEl.classList.add("empty-message");
-    messageEl.textContent = "No to-dos to show";
+    messageEl.textContent = "There are no to-dos to show";
     todoEl.appendChild(messageEl);
   }
 };
